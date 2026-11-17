@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2457d6">
+<title>TAPR 2026-2 · Estudo para a prova</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9;--card:#fff;--ink:#16181d;--muted:#5d6472;--line:#e3e6eb;
+  --accent:#2457d6;--accent-soft:#e8eefc;--ok:#1a8a4a;--ok-soft:#e5f5ec;--bad:#c4372f;--bad-soft:#fbe9e7;
+  --code:#0f172a;--code-ink:#e2e8f0;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#111318;--card:#1a1d24;--ink:#eceef2;--muted:#9aa2b1;--line:#2b303a;
+  --accent:#6f97ff;--accent-soft:#1e2a47;--ok:#4cc583;--ok-soft:#163324;--bad:#ff7a70;--bad-soft:#3a1d1b;
+  --code:#0b0e14;
+}}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;gap:14px;padding:14px 0 8px}
+.top h1{font-size:18px;margin:0}
+.top .sub{color:var(--muted);font-size:13px}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px}
+nav button{border:1px solid var(--line);background:transparent;color:var(--ink);padding:7px 12px;border-radius:999px;font:500 13px Inter,sans-serif;cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{padding:24px 0 60px}
+h2{font-size:24px;margin:0 0 4px}
+.lead{color:var(--muted);margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h3{margin:0 0 8px;font-size:15px}
+.card ul{margin:0;padding-left:18px}
+.card li{margin:3px 0;font-size:14px}
+.card p{margin:4px 0;font-size:14px}
+.tip{border-left:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:8px;margin:14px 0;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+pre{background:var(--code);color:var(--code-ink);padding:12px 14px;border-radius:10px;overflow-x:auto;font:13px/1.5 "JetBrains Mono",monospace;margin:8px 0}
+code{font-family:"JetBrains Mono",monospace;font-size:.92em}
+.section-title{margin:28px 0 12px;font-size:17px}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:10px 16px;font:600 14px Inter,sans-serif;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+/* quiz */
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:8px}
+.bar{height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.qtext{font-weight:600;font-size:16px;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;background:transparent;border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin:8px 0;color:var(--ink);font:14px Inter,sans-serif;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt:disabled{cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--accent-soft);font-size:14px}
+.exp b{display:block;margin-bottom:3px}
+.result{text-align:center;padding:30px 20px}
+.big{font-size:44px;font-weight:700;margin:6px 0}
+.wrong-list{text-align:left;margin-top:18px}
+.wrong-list .card{margin:8px 0}
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:16px 0}
+.mod{cursor:pointer;transition:border-color .15s}
+.mod:hover{border-color:var(--accent)}
+.mod .n{font-size:13px;color:var(--muted)}
+.score{font-size:12px;color:var(--ok);font-weight:600}
+details.card{padding:0}
+details.card summary{padding:14px 18px;cursor:pointer;font-weight:600;font-size:14.5px}
+details.card > div{padding:0 18px 16px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:6px 0}
+.tw table{margin:0;min-width:100%}
+.card{min-width:0}
+pre{max-width:100%}
+nav{scrollbar-width:none;-webkit-overflow-scrolling:touch}
+nav::-webkit-scrollbar{display:none}
+@media (max-width:640px){
+  .wrap{padding:0 14px}
+  .top{padding:10px 0 6px}
+  .top h1{font-size:15.5px}
+  .top .sub{font-size:12px}
+  nav button{padding:8px 12px;font-size:13px}
+  main{padding:18px 0 48px}
+  h2{font-size:20px}
+  .lead{font-size:14px;margin-bottom:16px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .mods{grid-template-columns:1fr 1fr;gap:10px}
+  .mod h3{font-size:14px}
+  .card{padding:14px}
+  table{font-size:12.5px}
+  th,td{padding:6px 6px}
+  pre{font-size:11.5px;padding:10px 12px}
+  .q{padding:16px 14px}
+  .qtext{font-size:15px}
+  .opt{padding:13px 12px;font-size:14px;min-height:48px}
+  .row .btn{flex:1 1 auto}
+  .btn{padding:12px 16px}
+  .big{font-size:38px}
+  .result{padding:22px 14px}
+}
+@media (max-width:380px){.mods{grid-template-columns:1fr}}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:600;margin-right:6px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top"><div><h1>TAPR · Tópicos Avançados de Programação</h1><div class="sub">Revisão para a prova · Univille 2026-2</div></div></div>
+    <nav id="nav"></nav>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+
+<script>
+/* ===================== CONTEÚDO ===================== */
+const TOPICS = [
+{ id:"inicio", nav:"Início" },
+{ id:"adls", nav:"1. Storage e Bronze", title:"Storage, Data Lake e camada Bronze",
+  lead:"Storage Account, ADLS Gen2, arquitetura medalhão e como a Function grava o dado bruto.",
+  html:`
+<div class="grid">
+ <div class="card"><h3>Storage Account</h3><p>Serviço de armazenamento da Azure: durável, escalável e acessível pela internet. Uma conta tem 4 "gavetas":</p>
+ <ul><li><b>Blob</b>: arquivos de qualquer tipo (JSON, CSV, Parquet, logs, imagens). É a gaveta dos dados.</li>
+ <li><b>Files</b>: pasta de rede compartilhada (SMB).</li>
+ <li><b>Queue</b>: fila de mensagens entre sistemas.</li>
+ <li><b>Table</b>: NoSQL simples de chave e valor.</li></ul></div>
+ <div class="card"><h3>Hierarquia na Azure</h3><ul>
+ <li><b>Assinatura</b>: quem paga</li><li><b>Grupo de recursos</b>: quem agrupa</li>
+ <li><b>Storage Account</b>: nome único no mundo</li><li>Container (raiz) → Pastas → Arquivo</li></ul>
+ <pre>https://lojaabc.blob.core.windows.net/vendas/2026/jan.csv
+        conta              container  caminho</pre></div>
+ <div class="card"><h3>Banco relacional x Data Lake</h3>
+ <div class="tw"><table><tr><th></th><th>Banco (Azure SQL)</th><th>Data Lake</th></tr>
+ <tr><td>Dados</td><td>Estruturados, tabelas</td><td>Qualquer formato</td></tr>
+ <tr><td>Schema</td><td>Antes de gravar (on write)</td><td>Na hora de ler (on read)</td></tr>
+ <tr><td>Custo/GB</td><td>Mais alto</td><td>Baixo</td></tr>
+ <tr><td>Uso</td><td>Transações do dia a dia</td><td>Análise e reprocessamento</td></tr></table></div>
+ <p>Analogia: banco = estante etiquetada; lake = galpão de caixas fechadas.</p></div>
+ <div class="card"><h3>Blob comum x ADLS Gen2</h3>
+ <p>ADLS Gen2 <b>não é outro serviço</b>: é a mesma Storage Account com o <b>namespace hierárquico</b> ligado (aba <b>Avançado</b>, na criação).</p>
+ <div class="tw"><table><tr><th></th><th>Blob</th><th>ADLS Gen2</th></tr>
+ <tr><td>Pastas</td><td>Nomes planos</td><td>Pastas reais</td></tr>
+ <tr><td>Renomear pasta</td><td>Copia e apaga cada arquivo</td><td>1 operação</td></tr>
+ <tr><td>Permissão</td><td>RBAC por conta/container</td><td>RBAC + ACL por pasta/arquivo</td></tr>
+ <tr><td>Endereço</td><td>blob.core.windows.net</td><td>dfs.core.windows.net</td></tr></table></div>
+ <p>Esqueceu de marcar? O mais seguro é criar outra conta.</p></div>
+ <div class="card"><h3>Camadas de acesso (custo)</h3>
+ <div class="tw"><table><tr><th>Camada</th><th>Quando</th><th>Armazenar</th></tr>
+ <tr><td>Hot</td><td>Acesso frequente</td><td>Mais caro</td></tr>
+ <tr><td>Cool</td><td>≥ 30 dias</td><td>Médio</td></tr>
+ <tr><td>Cold</td><td>≥ 90 dias</td><td>Baixo</td></tr>
+ <tr><td>Archive</td><td>≥ 180 dias</td><td>Mínimo, leitura lenta</td></tr></table></div>
+ <p><b>Redundância:</b> LRS = 3 cópias em 1 datacenter · ZRS = espalha por zonas · GRS = replica para outra região.</p></div>
+ <div class="card"><h3>Quem se conecta ao lake</h3><ul>
+ <li><b>Data Factory</b>: ingere (copia das fontes)</li>
+ <li><b>Databricks</b>: processa com Spark</li>
+ <li><b>Synapse</b>: consulta com SQL sobre os arquivos</li></ul></div>
+ <div class="card"><h3>Function → Storage</h3><ul>
+ <li>Recomendado: <b>identidade gerenciada</b> + papel RBAC <b>Storage Blob Data Contributor</b>. Sem senha no código, revogável.</li>
+ <li>Alternativa: <b>chave da conta</b>. Rápida, mas é a senha da conta inteira.</li>
+ <li>Sem o papel certo: <b>erro 403</b>, mesmo com a conta criada.</li>
+ <li>Dados do projeto em conta <b>separada</b> da que a Function usa para funcionar.</li></ul></div>
+ <div class="card"><h3>Arquitetura medalhão</h3>
+ <div class="tw"><table><tr><th>Camada</th><th>O que é</th><th>Formato</th><th>Quem usa</th></tr>
+ <tr><td><b>Bronze</b></td><td>Cópia fiel da fonte</td><td>Original (JSON, CSV)</td><td>Eng. de dados</td></tr>
+ <tr><td><b>Silver</b></td><td>Limpo, tipado, sem duplicados</td><td>Parquet ou Delta</td><td>Analistas e cientistas</td></tr>
+ <tr><td><b>Gold</b></td><td>Agregado, modelado, KPIs</td><td>Tabelas prontas</td><td>Gestão, BI</td></tr></table></div>
+ <p>Água: Bronze = captada do rio · Silver = filtrada · Gold = engarrafada.</p></div>
+ <div class="card"><h3>Por que separar em camadas</h3><ul>
+ <li><b>Reprocessamento</b>: errou na Silver, relê o Bronze.</li>
+ <li><b>Rastreabilidade</b>: prova de onde veio cada número.</li>
+ <li><b>Qualidade progressiva</b>: problemas isolados por camada.</li>
+ <li><b>Controle de acesso</b>: poucos no bruto, muitos no Gold.</li></ul>
+ <p><b>Regra de ouro:</b> o Bronze é a fonte da verdade. Nunca edite nem apague. Correções acontecem na Silver.</p></div>
+ <div class="card"><h3>Container bronze na prática</h3>
+ <p><b>Entra:</b> o dado como veio, um arquivo novo por execução, nome com data e hora, metadados simples (fonte, quando chegou).</p>
+ <p><b>NÃO faz:</b> limpar, converter tipos, renomear campos, remover duplicados, editar ou apagar antigos.</p>
+ <p>Nome de container: 3 a 63 caracteres, só minúsculas, números e hífen.</p>
+ <p><b>Formato:</b> salve no formato que a fonte entregou (API JSON → grava JSON). Converter é trabalho da Silver.</p></div>
+ <div class="card"><h3>Organização de pastas</h3>
+ <pre>bronze/
+└─ itsm/
+   └─ chamados/
+      └─ ano=2026/mes=10/dia=16/
+         └─ chamados_20261016T134500Z.json</pre>
+ <p>Fonte primeiro, data nas pastas, data e hora no nome (Z = UTC), minúsculas, sem espaços nem acentos.</p>
+ <pre>abfss://bronze@stdatalaketapr.dfs.core.windows.net/itsm/chamados/teste.json</pre></div>
+ <div class="card"><h3>JSON x CSV</h3>
+ <p><b>JSON:</b> aceita aninhados e campos opcionais, ideal para APIs, ocupa mais espaço.</p>
+ <p><b>CSV:</b> tabular e compacto, abre no Excel, não guarda tipos, cuidado com separador e codificação. Objetos aninhados precisam ser "achatados" em colunas.</p></div>
+</div>
+<div class="tip"><b>Passo a passo no portal:</b> 1) Criar a conta (grupo, nome único minúsculo, região, redundância) · 2) Aba Avançado: namespace hierárquico · 3) + Contêiner "bronze" · 4) IAM: Storage Blob Data Contributor para você e a Function · 5) Gravar um JSON de teste.</div>`},
+
+{ id:"sql", nav:"2. Azure SQL", title:"Azure SQL Database",
+  lead:"O banco que guarda o dado tratado e alimenta o dashboard.",
+  html:`
+<div class="grid">
+ <div class="card"><h3>Por que o dashboard não lê do Bronze</h3><ul>
+ <li><b>Resposta rápida</b>: arquivo precisa ser lido inteiro; banco usa índices.</li>
+ <li><b>Dados com regras</b>: tipos, e a PK impede repetidos.</li>
+ <li><b>Muita gente ao mesmo tempo</b>, cada um com sua permissão.</li></ul></div>
+ <div class="card"><h3>Banco relacional</h3><p>Tabelas (conjunto) · Colunas (tipo de dado) · Linhas (registro). <b>PK</b> identifica cada linha de forma única.</p>
+ <pre>SELECT status, COUNT(*) AS total
+FROM dbo.chamados
+GROUP BY status;</pre></div>
+ <div class="card"><h3>Azure SQL Database (PaaS)</h3><ul>
+ <li><b>Gerenciado</b>: Azure cuida de updates, backup, monitoramento.</li>
+ <li><b>Backup automático</b>: restaura qualquer ponto dos últimos <b>7 dias</b> (padrão, configurável de 1 a 35).</li>
+ <li><b>Escala sob demanda</b> sem trocar de banco.</li>
+ <li><b>Segurança</b>: firewall, Microsoft Entra ID, permissões por usuário.</li></ul>
+ <p>AZ-900: PaaS = Azure gerencia infraestrutura e sistema; você gerencia aplicação e dados.</p></div>
+ <div class="card"><h3>Qual SQL usar</h3>
+ <div class="tw"><table><tr><th></th><th>SQL Database</th><th>Managed Instance</th><th>SQL Server em VM</th></tr>
+ <tr><td>Tipo</td><td>PaaS, banco único</td><td>PaaS, instância completa</td><td>IaaS</td></tr>
+ <tr><td>Gerencia</td><td>Azure</td><td>Azure</td><td>Você</td></tr>
+ <tr><td>Quando</td><td>Apps novas, dashboards</td><td>Migrar SQL Server com poucas mudanças</td><td>Controle total</td></tr>
+ <tr><td>Esforço</td><td>Baixo</td><td>Médio</td><td>Alto</td></tr></table></div>
+ <p>Escolha da aula: <b>Azure SQL Database</b> (mais simples, tem opção gratuita).</p></div>
+ <div class="card"><h3>Servidor lógico</h3><p>O banco mora num <b>servidor lógico</b>: ele só organiza acesso, <b>não é uma máquina</b>. Nome único no mundo. Porta <b>1433</b>.</p>
+ <pre>Server=tcp:servidor-tapr.database.windows.net,1433;
+Database=bd-chamados</pre></div>
+ <div class="card"><h3>Modelos de cobrança</h3>
+ <div class="tw"><table><tr><th>Modelo</th><th>Como cobra</th><th>Bom para</th></tr>
+ <tr><td><b>Serverless</b></td><td>Por uso, pausa sozinho</td><td>Estudo, uso esporádico (o da aula)</td></tr>
+ <tr><td>Provisionado (vCore)</td><td>Capacidade fixa, sempre ligada</td><td>Carga constante</td></tr>
+ <tr><td>DTU</td><td>Pacote de CPU, memória e disco</td><td>Começar simples, preço previsível</td></tr></table></div>
+ <p><b>Oferta gratuita</b> (por banco/mês): 100.000 vCore-segundos, 32 GB de dados, 32 GB de backup, até 10 bancos por assinatura. <b>Sem SLA</b>.</p></div>
+ <div class="card"><h3>Bronze x SQL</h3>
+ <div class="tw"><table><tr><th></th><th>ADLS Bronze</th><th>Azure SQL</th></tr>
+ <tr><td>Guarda</td><td>Arquivos como chegaram</td><td>Linhas e colunas tipadas</td></tr>
+ <tr><td>Consulta</td><td>Precisa ler arquivos</td><td>Rápida, SQL e índices</td></tr>
+ <tr><td>Quem usa</td><td>Engenharia de dados</td><td>Dashboard e analistas</td></tr>
+ <tr><td>Se der erro</td><td>É a fonte da verdade</td><td>Refaz a partir do Bronze</td></tr>
+ <tr><td>Custo/GB</td><td>Baixo</td><td>Mais alto</td></tr></table></div>
+ <p>O SQL faz o papel de Silver/Gold. A Function grava nos <b>dois</b>.</p></div>
+ <div class="card"><h3>Function → banco: 3 portas</h3><ol style="padding-left:18px;font-size:14px;margin:0">
+ <li><b>Rede</b>: firewall do servidor, porta 1433</li>
+ <li><b>Identidade</b>: identidade gerenciada (Entra ID), sem senha</li>
+ <li><b>Permissão</b>: usuário no banco com <code>db_datawriter</code></li></ol>
+ <p>Alternativa: usuário e senha SQL, com a senha no <b>Key Vault</b>.</p>
+ <p>⚠ "Permitir serviços do Azure" libera <b>qualquer</b> recurso Azure, até de outras assinaturas.</p></div>
+ <div class="card"><h3>Do Bronze ao SQL</h3><p>1) Ler JSON do Bronze → 2) Validar e converter (tipos, obrigatórios) → 3) Gravar com <b>MERGE</b> (sem duplicar) → 4) Tabela pronta. Errou? Reprocessa do Bronze.</p></div>
+ <div class="card"><h3>MERGE e idempotência</h3>
+ <pre>MERGE dbo.chamados AS destino
+USING (VALUES (@id,@titulo,@status,@criado_em))
+  AS origem (id,titulo,status,criado_em)
+ON destino.id = origem.id
+WHEN MATCHED THEN UPDATE SET
+  titulo = origem.titulo, status = origem.status
+WHEN NOT MATCHED THEN INSERT (id,titulo,status,criado_em)
+  VALUES (origem.id,origem.titulo,origem.status,origem.criado_em);</pre>
+ <p>Existe → atualiza. Não existe → insere. <b>Idempotência</b>: rodar de novo dá o mesmo resultado (como ficha de matrícula).</p></div>
+ <div class="card"><h3>Tabela da aula</h3>
+ <pre>CREATE TABLE dbo.chamados (
+ id INT NOT NULL PRIMARY KEY,
+ titulo NVARCHAR(200) NOT NULL,
+ status NVARCHAR(20) NOT NULL,
+ solicitante NVARCHAR(100) NULL,
+ criado_em DATETIME2 NOT NULL,
+ carregado_em DATETIME2 NOT NULL
+   DEFAULT SYSUTCDATETIME(),
+ arquivo_origem NVARCHAR(260) NULL);</pre>
+ <p><code>carregado_em</code> e <code>arquivo_origem</code> são <b>colunas de controle</b>: ligam a linha ao arquivo no Bronze.</p></div>
+ <div class="card"><h3>Entrega ao dashboard</h3>
+ <pre>CREATE VIEW dbo.vw_chamados_por_status AS
+SELECT status, COUNT(*) AS total
+FROM dbo.chamados GROUP BY status;
+
+ALTER ROLE db_datareader
+ ADD MEMBER [usuario-dashboard];</pre>
+ <p><b>View</b> = consulta salva; o dashboard não depende da estrutura das tabelas. Usuário do dashboard só lê. <b>Importar</b> atualiza por agenda; <b>consulta ao vivo</b> mantém o banco acordado e consome mais.</p></div>
+ <div class="card"><h3>Dar acesso à Function</h3>
+ <pre>CREATE USER [func-corptech-itsm] FROM EXTERNAL PROVIDER;
+ALTER ROLE db_datareader ADD MEMBER [func-corptech-itsm];
+ALTER ROLE db_datawriter ADD MEMBER [func-corptech-itsm];</pre>
+ <p>Antes: ativar a identidade gerenciada do sistema na Function App (o nome é o da própria Function App). Conexão: <code>Authentication=Active Directory Managed Identity</code>.</p></div>
+ <div class="card"><h3>Armadilhas</h3><ul>
+ <li><b>O banco "dorme"</b>: no serverless, a 1ª conexão após pausa leva ~1 min e falha com <b>erro 40613</b>. Precisa de <b>retry</b>.</li>
+ <li><b>Crédito acaba</b>: conexão aberta impede a pausa. Métrica <i>Free amount remaining</i>.</li>
+ <li><b>Segurança mínima</b>: Entra ID em vez de senha; firewall só para quem precisa; nunca todos os IPs.</li>
+ <li>Sem regra de firewall para seu IP → conexão recusada. Ao fim, apague o grupo de recursos.</li></ul></div>
+</div>
+<div class="tip"><b>Portal (5 passos):</b> Criar o banco (Start free, bd-chamados) → Criar o servidor (admin Microsoft Entra) → Computação serverless (auto-pause) → Rede (Add client IPv4) → Query editor (CREATE TABLE).</div>`},
+
+{ id:"viz", nav:"3. Visualização", title:"Camada de visualização de dados",
+  lead:"Onde o dado vira decisão: propósito, ferramentas, tipos de painel e indicadores.",
+  html:`
+<div class="grid">
+ <div class="card"><h3>O que é</h3><p>Última etapa da plataforma: Fontes → Ingestão → Lakehouse (Bronze/Silver/Gold) → <b>Camada semântica</b> (define cada métrica uma vez) → <b>Visualização</b>.</p>
+ <p>Analogia: lakehouse = estoque, visualização = vitrine.</p>
+ <p>⚠ Sem dado confiável por baixo, o dashboard bonito só espalha o erro mais rápido.</p></div>
+ <div class="card"><h3>Para que serve (4 usos)</h3><ul>
+ <li><b>Monitorar</b>: saúde em tempo quase real (SLA, estoque, uptime)</li>
+ <li><b>Decidir</b>: info certa na hora certa (orçado x realizado)</li>
+ <li><b>Explorar</b>: filtrar, cruzar, descobrir o porquê (drill-down)</li>
+ <li><b>Comunicar</b>: contar história (relatório mensal)</li></ul>
+ <p><b>Regra de ouro:</b> todo dashboard responde a uma pergunta de negócio.</p></div>
+ <div class="card"><h3>Ferramentas</h3>
+ <div class="tw"><table>
+ <tr><td><b>Power BI</b></td><td>BI corporativo, Microsoft/Fabric. ⚠ DAX tem curva</td></tr>
+ <tr><td><b>Tableau</b></td><td>BI visual, storytelling. ⚠ licença cara</td></tr>
+ <tr><td><b>Looker</b></td><td>BI governado, métricas em código (LookML), Google Cloud. ⚠ exige time técnico</td></tr>
+ <tr><td><b>Metabase</b></td><td>Começar rápido, SQL ou cliques. ⚠ menos recursos</td></tr>
+ <tr><td><b>Superset</b></td><td>Open source, volume e customização. ⚠ você opera a infra</td></tr>
+ <tr><td><b>Grafana</b></td><td>Observabilidade, séries temporais. ⚠ não é BI de negócio</td></tr>
+ <tr><td><b>Streamlit</b></td><td>Apps em Python, protótipos, IA. ⚠ você mantém código</td></tr></table></div>
+ <p>Escolha pela stack e pelo público.</p></div>
+ <div class="card"><h3>Painel executivo bem feito</h3><ul>
+ <li><b>KPIs no topo</b>: valor grande, variação, cor (verde melhora, vermelho piora). Resposta em 3 segundos.</li>
+ <li><b>Filtros visíveis</b> no cabeçalho.</li>
+ <li><b>Tendência com meta</b>: realizado x orçado.</li>
+ <li><b>Barras ordenadas</b>, um destaque só.</li></ul></div>
+ <div class="card"><h3>Três painéis, três públicos</h3>
+ <div class="tw"><table><tr><th>Tipo</th><th>Quem</th><th>Quando</th><th>Como</th></tr>
+ <tr><td>Estratégico</td><td>Diretoria</td><td>Mensal</td><td>3 a 5 KPIs + tendência, poucos filtros</td></tr>
+ <tr><td>Operacional</td><td>Operação</td><td>Tempo real</td><td>Semáforos, alertas, lista de ação</td></tr>
+ <tr><td>Analítico</td><td>Analistas</td><td>Sob demanda</td><td>Muitos filtros, drill-down</td></tr></table></div>
+ <p>Erro comum: misturar os três num só.</p></div>
+ <div class="card"><h3>Construir um indicador (6 passos)</h3><ol style="padding-left:18px;font-size:14px;margin:0">
+ <li>Pergunta: o que preciso decidir?</li><li>Métrica: fórmula, grão, dono, fonte única</li>
+ <li>Modelo: calcular na Gold ou na semântica</li><li>Visual: gráfico certo para a pergunta</li>
+ <li>Contexto: meta, período anterior, variação</li><li>Publicar: validar com fonte e usuário</li></ol>
+ <p>Feedback do usuário volta ao passo 4. Métrica definida <b>uma vez</b> na Gold.</p>
+ <pre>SUM(valor_realizado)/NULLIF(SUM(valor_orcado),0)-1 AS var_pct</pre>
+ <p><code>NULLIF</code> evita divisão por zero.</p></div>
+ <div class="card"><h3>Gráfico pela pergunta</h3><div class="tw"><table>
+ <tr><td>Linha</td><td>Como evoluiu no tempo?</td></tr>
+ <tr><td>Barras ordenadas</td><td>Quem é maior ou menor?</td></tr>
+ <tr><td>Barra empilhada</td><td>Participação de cada parte (poucas)</td></tr>
+ <tr><td>Dispersão</td><td>Relação entre duas variáveis</td></tr>
+ <tr><td>Cartão KPI</td><td>Estamos na meta?</td></tr>
+ <tr><td>Tabela</td><td>Preciso dos valores exatos</td></tr></table></div>
+ <p>Evite pizza com muitas fatias (ninguém compara ângulos), eixo cortado, 3D, gráfico sem título. 5 a 8 visuais por página. KPI principal no canto superior esquerdo. Cor só para destacar.</p></div>
+ <div class="card"><h3>Primeiro dashboard</h3><p>Pergunta → Tabela Gold → Conectar (Power BI ou Metabase) → 1 KPI + 2 gráficos → Testar com usuário → Iterar.</p>
+ <p>Resumo: pergunta clara, métrica única, gráfico simples e contexto.</p></div>
+</div>`},
+
+{ id:"cicd", nav:"4. CI/CD", title:"CI/CD com GitHub Actions",
+  lead:"Do commit ao deploy da Azure Function (Python) no repositório TAPRB-2026-2.",
+  html:`
+<div class="grid">
+ <div class="card"><h3>A dor</h3><p>"Funciona na minha máquina" e quebra em produção na sexta às 18h.</p>
+ <p><b>Com CI/CD:</b> todo push roda verificações sozinho, ambiente limpo e igual, deploy repetível, histórico claro (quem, quando, se passou).</p></div>
+ <div class="card"><h3>CI, Entrega e Implantação contínuas</h3><ul>
+ <li><b>CI (Integração Contínua)</b>: a cada push, verificações automáticas.</li>
+ <li><b>CD (Entrega Contínua)</b>: commit aprovado vira pacote pronto; <b>uma pessoa decide publicar</b>.</li>
+ <li><b>CD (Implantação Contínua)</b>: passou em tudo, vai para produção <b>sozinho</b>.</li></ul>
+ <p>No laboratório: <b>implantação contínua</b> (deploy automático a cada push na main).</p></div>
+ <div class="card"><h3>Loop de feedback</h3><p>Commit (git push dispara) → Validação (py_compile) → Deploy (Azure Functions). Falhou? Aviso volta para quem fez o commit em minutos. <b>Quanto mais cedo o erro, mais barato corrigir.</b></p></div>
+ <div class="card"><h3>Glossário</h3><div class="tw"><table>
+ <tr><td>repositório</td><td>pasta do projeto com histórico</td></tr>
+ <tr><td>commit</td><td>registro de mudança (autor, data, mensagem)</td></tr>
+ <tr><td>workflow</td><td>arquivo YAML da automação</td></tr>
+ <tr><td>job</td><td>conjunto de passos na mesma máquina</td></tr>
+ <tr><td>step</td><td>um passo: comando ou action pronta</td></tr>
+ <tr><td>runner</td><td>máquina que executa o job</td></tr>
+ <tr><td>artefato</td><td>resultado do build passado entre jobs</td></tr>
+ <tr><td>secret</td><td>valor sensível fora do código</td></tr></table></div></div>
+ <div class="card"><h3>Ferramentas</h3><div class="tw"><table>
+ <tr><th>Ferramenta</th><th>Arquivo</th></tr>
+ <tr><td>GitHub Actions</td><td>.github/workflows/*.yml</td></tr>
+ <tr><td>GitLab CI/CD</td><td>.gitlab-ci.yml</td></tr>
+ <tr><td>Azure Pipelines</td><td>azure-pipelines.yml</td></tr>
+ <tr><td>Jenkins</td><td>Jenkinsfile (servidor próprio, legado)</td></tr></table></div>
+ <p>Job, step e runner existem em todas.</p></div>
+ <div class="card"><h3>O projeto</h3><ul>
+ <li>Azure Function (Python v2) com <b>Timer</b> <code>0 * * * * *</code>: roda a cada minuto.</li>
+ <li>Lê HOST, DATABASE, USER, PASSWORD das variáveis de ambiente (<code>os.getenv</code>).</li>
+ <li>Conecta no SQL Server via <b>pyodbc</b> (ODBC Driver 18).</li>
+ <li>Consulta <code>select * from itsm.chamado</code>.</li></ul></div>
+ <div class="card"><h3>O ci.yml mínimo</h3>
+ <pre>name: CI/CD
+on:
+  push:
+    branches: ["main"]
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 --version
+      - run: python3 -m py_compile function_app.py</pre>
+ <p><code>on</code>: o que dispara · <code>runs-on</code>: runner Ubuntu emprestado · <code>uses</code>: action pronta (checkout baixa o código) · <code>run</code>: comando de shell.</p></div>
+ <div class="card"><h3>py_compile</h3><ul>
+ <li>Compila o arquivo <b>sem executar</b>. Erro de sintaxe → step falha.</li>
+ <li><b>Silêncio é sucesso</b>: se está certo, não imprime nada.</li>
+ <li>Erro de sintaxe derruba a Function inteira; melhor achar antes do deploy.</li></ul>
+ <p>Run: amarelo = rodando, verde = passou, vermelho = falhou. Leia a <b>primeira</b> mensagem de erro.</p></div>
+ <div class="card"><h3>Segurança (commit 3)</h3><p>Nenhuma ferramenta acusa: <b>senha no log</b> (timer a cada minuto = 60x por hora) e <code>logging.info(rows)</code> despejando dados de pessoas. Logue só servidor, banco e contagem de linhas. <b>Quem pega é a revisão de código.</b></p></div>
+ <div class="card"><h3>Job deploy</h3>
+ <pre>deploy:
+  needs: validar
+  runs-on: ubuntu-latest
+  permissions:
+    id-token: write
+    contents: read
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: { python-version: '3.13' }
+    - uses: azure/login@v2
+      with:
+        client-id: \${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: \${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: \${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - uses: Azure/functions-action@v1
+      with:
+        app-name: \${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: .
+        remote-build: true</pre>
+ <ul><li><code>needs: validar</code>: deploy só roda se validar passar (protege produção).</li>
+ <li><code>id-token: write</code>: login por <b>OIDC</b>, sem senha guardada.</li>
+ <li><code>remote-build</code>: Azure instala o requirements.txt (Flex Consumption).</li>
+ <li>Python igual ao da Function App.</li></ul></div>
+ <div class="card"><h3>Onde ficam os segredos</h3><ul>
+ <li><b>Login sem senha</b>: app registrado com credencial federada (OIDC) para o repositório.</li>
+ <li><b>Secrets do repo</b> (Settings › Secrets and variables › Actions): AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID. O nome da Function App fica no workflow.</li>
+ <li><b>Credenciais do banco</b>: nas configurações da Function App. Nunca no repo, nunca no log.</li></ul></div>
+ <div class="card"><h3>Trilha extra e próximos passos</h3><ul>
+ <li><code>workflow_dispatch</code>: disparo manual (Run workflow)</li>
+ <li><b>environment</b> com revisores: aprovação manual</li>
+ <li>Badge no README · Proteção da main · Dependabot · CodeQL</li>
+ <li>Renomear USER → SQL_USER (colide com variável do SO)</li>
+ <li>Extrair <code>ler_chamados()</code> para testar · ruff e pytest · Key Vault</li></ul></div>
+ <div class="card"><h3>Entrega / rubrica</h3><ul>
+ <li>Workflow com jobs validar e deploy (com needs)</li>
+ <li>Último run verde na main</li>
+ <li>Um run vermelho seguido da correção (histórico incremental)</li>
+ <li>Nenhum segredo no código nem nos logs</li>
+ <li>README explicando o workflow em 3 frases, com suas palavras</li></ul></div>
+</div>`},
+
+{ id:"ddl", nav:"5. Modelo ITSM", title:"Modelo de dados ITSM (DDL)",
+  lead:"O schema itsm do banco da disciplina: tabelas, chaves e restrições.",
+  html:`
+<div class="grid">
+ <div class="card"><h3>Tabelas de cadastro (dimensões)</h3><ul>
+ <li><code>categoria</code>, <code>fila</code>, <code>sla</code> (tem <code>qt_meta_minutos</code>)</li>
+ <li><code>cliente_organizacao</code> (tem <code>nr_cnpj</code>)</li>
+ <li><code>analista</code> → FK <code>id_fila_atual</code> → fila</li>
+ <li><code>solicitante</code> → FK <code>id_cliente_organizacao</code> (NOT NULL)</li></ul>
+ <p>Padrão: <code>id_</code> IDENTITY PK, <code>cd_</code> UNIQUE, <code>fl_ativo</code> bit DEFAULT 1, <code>dt_inclusao</code> DEFAULT sysutcdatetime(), colunas de origem.</p></div>
+ <div class="card"><h3>Tabela central: chamado</h3><ul>
+ <li>PK <code>id_chamado</code> bigint IDENTITY · UNIQUE <code>nr_chamado</code></li>
+ <li>FKs: analista (<code>id_analista_atual</code>), solicitante (<code>id_reporter</code>, NOT NULL), categoria, cliente_organizacao (NOT NULL), fila</li>
+ <li>Datas: <code>dt_criacao</code>, <code>dt_resolucao</code> (NULL), <code>dt_ultima_atualizacao</code></li>
+ <li>Índices em analista, categoria, cliente, criação, fila, prioridade, reporter, resolução, status</li></ul></div>
+ <div class="card"><h3>CHECKs (valores permitidos)</h3><div class="tw"><table>
+ <tr><td>tipo</td><td>INCIDENT, REQUEST, PROBLEM, CHANGE, TASK</td></tr>
+ <tr><td>status</td><td>OPEN, IN_PROGRESS, PENDING, RESOLVED, CLOSED, CANCELLED</td></tr>
+ <tr><td>prioridade</td><td>LOW, MEDIUM, HIGH, CRITICAL</td></tr>
+ <tr><td>analista.ds_nivel</td><td>N1, N2, N3</td></tr>
+ <tr><td>csat.nr_score</td><td>1 a 5</td></tr></table></div>
+ <p>Criados <code>WITH NOCHECK</code>: não validam as linhas que já existiam.</p></div>
+ <div class="card"><h3>Tabelas de fato / eventos</h3><ul>
+ <li><code>chamado_sla</code>: chamado × sla, <code>fl_breach</code> (estourou?), tempos restante/decorrido, meta</li>
+ <li><code>chamado_status_historico</code>: cada status com início, fim, minutos, analista e fila</li>
+ <li><code>csat_avaliacao</code>: nota 1 a 5 do chamado/analista, comentário</li>
+ <li><code>csat</code>: tabela solta (Id, Column1, Column2), sem relação</li></ul></div>
+ <div class="card"><h3>Relações (resumo)</h3>
+ <pre>cliente_organizacao 1─N solicitante
+cliente_organizacao 1─N chamado
+solicitante 1─N chamado (id_reporter)
+fila 1─N analista / chamado / status_hist
+analista 1─N chamado / status_hist / csat
+categoria 1─N chamado
+chamado 1─N chamado_sla N─1 sla
+chamado 1─N chamado_status_historico
+chamado 1─N csat_avaliacao</pre></div>
+ <div class="card"><h3>Consultas de treino</h3>
+ <pre>-- chamados por status
+SELECT ds_status_chamado, COUNT(*) total
+FROM itsm.chamado GROUP BY ds_status_chamado;
+
+-- % de SLA estourado
+SELECT AVG(CAST(fl_breach AS float))*100
+FROM itsm.chamado_sla;
+
+-- CSAT médio por analista
+SELECT a.nm_analista, AVG(c.nr_score*1.0) media
+FROM itsm.csat_avaliacao c
+JOIN itsm.analista a ON a.id_analista=c.id_analista
+GROUP BY a.nm_analista;
+
+-- tempo médio de resolução (horas)
+SELECT AVG(DATEDIFF(MINUTE,dt_criacao,dt_resolucao))/60.0
+FROM itsm.chamado WHERE dt_resolucao IS NOT NULL;</pre></div>
+</div>`}
+];
+
+/* ===================== QUESTÕES ===================== */
+const Q = {
+adls:[
+["Qual \"gaveta\" da Storage Account é usada para guardar dados de análise como JSON, CSV e Parquet?",["Files","Queue","Blob","Table"],2,"Blob guarda arquivos de qualquer tipo. Files é pasta de rede SMB, Queue é fila de mensagens e Table é NoSQL chave e valor."],
+["O que é o ADLS Gen2?",["Um serviço separado de Big Data","A mesma Storage Account com namespace hierárquico ligado","Um banco relacional para análise","Uma versão do Azure Files"],1,"ADLS Gen2 não é um serviço separado: é a Storage Account com o hierarchical namespace habilitado."],
+["Onde se habilita o namespace hierárquico?",["Na aba Avançado, ao criar a conta","Em qualquer momento, nas configurações do container","No IAM","No Data Factory"],0,"É marcado na aba Avançado na criação. Se esquecer, o mais seguro é criar outra conta."],
+["No Data Lake, quando o schema é aplicado?",["Antes de gravar","Só na hora de ler","Nunca","Na criação do container"],1,"Data Lake usa schema on read. O banco relacional define o schema antes de gravar."],
+["Renomear uma pasta no Blob comum exige:",["Uma única operação","Copiar e apagar cada arquivo","Recriar o container","Mudar a redundância"],1,"No Blob comum a pasta é só parte do nome; renomear copia e apaga cada arquivo. No ADLS Gen2 é uma operação só."],
+["Qual endpoint é típico do ADLS Gen2?",["blob.core.windows.net apenas","dfs.core.windows.net","database.windows.net","file.core.windows.net apenas"],1,"ADLS Gen2 usa dfs.core.windows.net (e também blob). O caminho abfss:// aponta para o dfs."],
+["Qual camada de acesso é indicada para dados guardados por pelo menos 90 dias?",["Hot","Cool","Cold","Archive"],2,"Cool ≥ 30 dias, Cold ≥ 90 dias, Archive ≥ 180 dias (mínimo custo, leitura lenta)."],
+["Qual redundância replica os dados para outra região?",["LRS","ZRS","GRS","Hot"],2,"LRS: 3 cópias em 1 datacenter. ZRS: zonas. GRS: replica para outra região."],
+["Qual serviço processa os dados do lake com Spark?",["Data Factory","Databricks","Synapse","Azure Functions"],1,"Data Factory ingere, Databricks processa (Spark), Synapse consulta com SQL."],
+["Qual papel RBAC permite à Function gravar no container?",["Reader","Storage Blob Data Contributor","Owner da assinatura","db_datawriter"],1,"Storage Blob Data Contributor. db_datawriter é papel do banco SQL, não da Storage."],
+["A Function tem identidade, a conta existe, mas a gravação falha. Erro típico por falta de papel:",["404","500","403","40613"],2,"Sem o papel certo a gravação falha com 403 (proibido). 40613 é o banco serverless pausado."],
+["Por que a identidade gerenciada é preferível à chave da conta?",["É mais rápida de configurar","Não exige senha no código e é revogável por papel","Dá acesso total à conta","Funciona sem RBAC"],1,"A chave é a senha da conta inteira; se vazar, expõe tudo. A identidade gerenciada usa RBAC e pode ser revogada sem mexer na Function."],
+["Na arquitetura medalhão, a camada com dados limpos, tipados e sem duplicados é:",["Bronze","Silver","Gold","Archive"],1,"Silver: limpo, com tipos e schema, geralmente Parquet ou Delta."],
+["Qual camada é agregada, modelada e com KPIs para gestão e BI?",["Bronze","Silver","Gold","Hot"],2,"Gold: dado de negócio, pronto para relatórios."],
+["Qual é a \"regra de ouro\" do Bronze?",["Pode ser corrigido para melhorar a qualidade","É a fonte da verdade: nunca editar nem apagar","Deve ser convertido para Parquet","Só guarda dados agregados"],1,"Correções acontecem na Silver. O Bronze é cópia fiel e permite reprocessar."],
+["Qual NÃO é benefício citado de separar em camadas?",["Reprocessamento","Rastreabilidade","Controle de acesso por camada","Eliminar a necessidade de armazenamento"],3,"Os quatro benefícios: reprocessamento, rastreabilidade, qualidade progressiva e controle de acesso."],
+["A API devolve JSON. Em qual formato gravar no Bronze?",["CSV, por ser compacto","Parquet","JSON, como a fonte entregou","XML"],2,"Regra prática: no Bronze salve no formato da fonte. Converter é trabalho da Silver."],
+["Qual nome de container é válido?",["Bronze","bronze_dados","bronze","br"],2,"3 a 63 caracteres, só minúsculas, números e hífen. \"Bronze\" tem maiúscula, \"bronze_dados\" tem underline, \"br\" tem só 2."],
+["Por que o arquivo no Bronze leva data e hora no nome (ex.: chamados_20261016T134500Z.json)?",["Para o arquivo ficar menor","Para cada execução gerar um arquivo novo sem sobrescrever","Para converter automaticamente para UTC","Porque o Azure exige"],1,"Cada execução gera um arquivo novo. O Z indica horário UTC."],
+["Uma desvantagem do CSV em relação ao JSON:",["Ocupa mais espaço","Não guarda tipos de dados e não aceita aninhados","Não abre no Excel","É exclusivo de APIs"],1,"CSV é tabular e compacto, mas não guarda tipos e exige achatar objetos aninhados. Cuidado com separador e codificação."],
+["Na hierarquia da Azure, quem \"paga\" e quem \"agrupa\"?",["Grupo de recursos paga, assinatura agrupa","Assinatura paga, grupo de recursos agrupa","Storage paga, container agrupa","Container paga, pasta agrupa"],1,"Assinatura (quem paga) → Grupo de recursos (quem agrupa) → Storage Account (nome único no mundo)."]
+],
+sql:[
+["Por que o dashboard não consulta direto os arquivos do Bronze?",["Arquivos não podem ser lidos pela Azure","O banco responde rápido com índices, aplica tipos/PK e suporta muitos usuários com permissões","O Bronze é apagado todo dia","Dashboards só leem CSV"],1,"Resposta rápida, dados com regras e muita gente ao mesmo tempo."],
+["O Azure SQL Database é um serviço do tipo:",["IaaS","PaaS","SaaS","On-premises"],1,"PaaS: Azure gerencia infraestrutura e sistema; você gerencia aplicação e dados."],
+["Por padrão, o backup automático permite restaurar até quantos dias atrás?",["1","7","30","35"],1,"7 dias por padrão, configurável de 1 a 35."],
+["Qual opção é indicada para migrar um SQL Server existente com poucas mudanças?",["Azure SQL Database","SQL Managed Instance","SQL Server em VM","Azure Table"],1,"Managed Instance é PaaS com instância completa, boa para migração."],
+["Em qual opção VOCÊ gerencia o sistema operacional?",["Azure SQL Database","SQL Managed Instance","SQL Server em VM (IaaS)","Serverless"],2,"SQL Server em VM é IaaS: controle total e esforço alto."],
+["O servidor lógico do Azure SQL é:",["Uma VM dedicada","Um contêiner que só organiza acesso, não uma máquina","Um storage account","Uma Function"],1,"Ele organiza o acesso e tem nome único no mundo, mas não é uma máquina."],
+["Porta padrão de conexão do Azure SQL:",["443","3306","1433","5432"],2,"1433. 3306 é MySQL e 5432 é PostgreSQL."],
+["Qual modelo pausa sozinho quando ninguém usa?",["Provisionado (vCore)","DTU","Serverless","Managed Instance"],2,"Serverless cobra por uso e tem auto-pause. É o modelo da aula."],
+["Sobre a oferta gratuita do Azure SQL, é correto:",["Tem SLA de 99,99%","100.000 vCore-segundos e 32 GB de dados por banco/mês, sem SLA","Ilimitada para produção","Só 1 banco por assinatura"],1,"100k vCore-segundos, 32 GB dados, 32 GB backup, até 10 bancos, sem SLA."],
+["Quais são as 3 \"portas\" para a Function chegar ao banco?",["CPU, memória e disco","Rede (firewall), identidade (Entra ID) e permissão (usuário no banco)","Blob, Queue e Table","Bronze, Silver e Gold"],1,"Firewall/porta 1433, identidade gerenciada e usuário com db_datawriter."],
+["Qual é o risco da opção \"Permitir serviços do Azure\" no firewall?",["Bloqueia a Function","Libera qualquer recurso Azure, inclusive de outras assinaturas","Desliga o backup","Aumenta o custo"],1,"Por isso o usuário e as permissões do banco são essenciais."],
+["Se usar usuário e senha SQL em vez de identidade, onde guardar a senha?",["No código","No README","No Azure Key Vault","No log"],2,"Nunca no código. Key Vault guarda segredos."],
+["O que o MERGE garante na carga?",["Apaga a tabela antes de inserir","Atualiza se o id existe, insere se não existe","Só insere","Converte JSON em CSV"],1,"WHEN MATCHED → UPDATE; WHEN NOT MATCHED → INSERT."],
+["Rodar a carga duas vezes e obter o mesmo resultado se chama:",["Atomicidade","Idempotência","Normalização","Replicação"],1,"Idempotência é o que permite reprocessar com segurança."],
+["Para que servem as colunas carregado_em e arquivo_origem?",["São a chave primária","Ligam cada linha ao arquivo no Bronze (controle)","Guardam a senha","Definem o status"],1,"São colunas de controle para rastreabilidade."],
+["Qual papel dar ao usuário do dashboard?",["db_owner","db_datawriter","db_datareader","sysadmin"],2,"Quem só consulta não precisa gravar ou apagar: somente leitura."],
+["Vantagem de o dashboard ler uma VIEW:",["Views são mais baratas que tabelas","O dashboard não depende da estrutura das tabelas","Views guardam backup","Views ignoram permissões"],1,"View é consulta salva; a estrutura das tabelas pode mudar sem quebrar o dashboard."],
+["Diferença entre importar e consultar ao vivo no dashboard:",["Importar mantém o banco sempre acordado","Consulta ao vivo mantém o banco acordado e consome mais; importar atualiza por agenda","Não há diferença","Importar é sempre em tempo real"],1,"No serverless, consulta ao vivo impede o auto-pause."],
+["Comando para criar no banco o usuário da identidade gerenciada:",["CREATE LOGIN ... WITH PASSWORD","CREATE USER [func] FROM EXTERNAL PROVIDER","GRANT ALL TO PUBLIC","ALTER SERVER ROLE sysadmin"],1,"FROM EXTERNAL PROVIDER cria o usuário ligado ao Entra ID. Precisa estar conectado como admin Entra."],
+["Erro 40613 na primeira conexão do dia geralmente significa:",["Senha errada","Banco serverless pausado acordando (~1 min); precisa retry","Firewall bloqueado","Tabela inexistente"],1,"A Function precisa tentar de novo."],
+["Por que fechar as ferramentas conectadas ao banco serverless?",["Para liberar a porta 443","Conexão aberta impede a pausa e consome crédito","Para ativar o backup","Para trocar a região"],1,"Acompanhe a métrica Free amount remaining."],
+["Na arquitetura medalhão, o Azure SQL do projeto equivale a:",["Bronze","Silver e Gold (dado limpo e organizado)","Archive","Queue"],1,"O Bronze é o cru; o SQL guarda o tratado, pronto para o dashboard."]
+],
+viz:[
+["Na analogia da aula, a camada de visualização é:",["O estoque","A vitrine","O caminhão","A fábrica"],1,"O lakehouse é o estoque, a visualização é a vitrine."],
+["O que faz a camada semântica?",["Armazena o dado bruto","Define cada métrica uma vez","Ingere dados das fontes","Desenha os gráficos"],1,"Fica entre o lakehouse e a visualização e garante métrica única."],
+["Qual é a regra de ouro de um dashboard?",["Ter muitas cores","Responder a uma pergunta de negócio","Ter ao menos 15 gráficos","Usar 3D"],1,"Se não há pergunta, não há dashboard."],
+["Acompanhar SLA, estoque e uptime em tempo quase real é o uso:",["Monitorar","Decidir","Explorar","Comunicar"],0,"Monitorar a saúde do negócio e perceber desvios cedo."],
+["Drill-down por região para descobrir o porquê de um número é o uso:",["Monitorar","Decidir","Explorar","Comunicar"],2,"Explorar: filtrar, cruzar e descobrir causas."],
+["Qual ferramenta é de observabilidade e séries temporais, e não BI de negócio?",["Power BI","Grafana","Tableau","Looker"],1,"Grafana é para métricas de sistemas."],
+["Qual ferramenta define métricas em código com LookML?",["Metabase","Looker","Superset","Streamlit"],1,"Looker: BI governado do Google Cloud, exige time técnico."],
+["Qual o cuidado citado para o Power BI?",["Licença mais cara","DAX tem curva de aprendizado","Você opera a infraestrutura","Não é BI"],1,"Licença mais cara é o Tableau; operar infra é o Superset."],
+["Ferramenta open source, sem licença, mas você opera a infraestrutura:",["Superset","Tableau","Power BI","Looker"],0,"Apache Superset."],
+["Painel para diretoria, mensal, com 3 a 5 KPIs e uma tendência:",["Operacional","Analítico","Estratégico (executivo)","Técnico"],2,"Estratégico. Operacional é tempo real com alertas; analítico é sob demanda com muitos filtros."],
+["Erro comum citado sobre tipos de painel:",["Fazer painéis separados","Misturar estratégico, operacional e analítico num só","Usar filtros visíveis","Mostrar metas"],1,"Um painel para cada público e cada pergunta."],
+["Num painel executivo bem feito, os KPIs ficam:",["No rodapé","No topo, com valor grande, variação e cor","Escondidos em menus","Só em tabela"],1,"Dá a resposta em 3 segundos. KPI mais importante no canto superior esquerdo."],
+["Para mostrar \"quem é maior ou menor\", o gráfico indicado é:",["Pizza com 7 fatias","Barras ordenadas","Dispersão","Linha"],1,"Barras ordenadas do maior para o menor, um destaque só."],
+["Para \"como evoluiu no tempo?\":",["Linha","Pizza","Tabela","Cartão KPI"],0,"Linha mostra tendência."],
+["Para a relação entre duas variáveis:",["Barra empilhada","Dispersão","Cartão KPI","Linha"],1,"Gráfico de dispersão (scatter)."],
+["Por que evitar pizza com muitas fatias?",["É lenta","Ninguém compara ângulos","Não tem cor","Não existe no Power BI"],1,"Prefira barras ordenadas com título e valores."],
+["Quantos visuais por página são recomendados?",["1","5 a 8","15 a 20","Sem limite"],1,"Menos é mais."],
+["No passo 3 (modelo), onde a métrica deve ser calculada?",["Em cada gráfico separadamente","Uma vez na Gold ou na camada semântica","No Bronze","Na planilha do usuário"],1,"Definida uma vez e reaproveitada por qualquer ferramenta."],
+["Na fórmula SUM(realizado)/NULLIF(SUM(orcado),0)-1, o NULLIF serve para:",["Arredondar","Evitar divisão por zero","Converter texto","Somar nulos"],1,"Se o orçado for 0, vira NULL e a divisão não quebra."],
+["O feedback do usuário no ciclo do indicador volta para qual passo?",["1 Pergunta","2 Métrica","4 Visual","6 Publicar"],2,"Volta ao passo 4 (visual)."],
+["Quais são os 6 passos para construir um indicador, em ordem?",["Visual, Pergunta, Métrica, Modelo, Publicar, Contexto","Pergunta, Métrica, Modelo, Visual, Contexto, Publicar","Métrica, Pergunta, Visual, Modelo, Contexto, Publicar","Modelo, Métrica, Pergunta, Visual, Publicar, Contexto"],1,"Pergunta → Métrica → Modelo → Visual → Contexto → Publicar."]
+],
+cicd:[
+["Qual a diferença entre Entrega Contínua e Implantação Contínua?",["Nenhuma","Na entrega uma pessoa decide publicar; na implantação vai para produção sozinho","Na entrega não há testes","Implantação contínua não usa CI"],1,"Entrega: pacote pronto, humano aprova. Implantação: automático."],
+["O laboratório da aula pratica:",["Só CI","Entrega contínua","Implantação contínua","Deploy manual"],2,"Validação e deploy automáticos a cada push na main, sem aprovação manual."],
+["Onde ficam os workflows do GitHub Actions?",[".gitlab-ci.yml",".github/workflows/*.yml","azure-pipelines.yml","Jenkinsfile"],1,"Os outros são GitLab, Azure Pipelines e Jenkins."],
+["\"Conjunto de passos executados na mesma máquina\" é um:",["step","job","runner","artefato"],1,"Job. Step é um passo; runner é a máquina."],
+["A máquina que executa o job se chama:",["workflow","runner","secret","commit"],1,"runs-on: ubuntu-latest escolhe um runner do GitHub."],
+["Resultado do build que passa de um job para outro:",["secret","artefato","step","commit"],1,"Artefato."],
+["No ci.yml, o que faz \"uses: actions/checkout@v4\"?",["Instala o Python","Baixa o código do repositório para o runner","Faz o deploy","Cria um secret"],1,"É uma action pronta."],
+["O que dispara o workflow do exemplo?",["Todo pull request","Todo push na branch main","Um cron diário","Só manualmente"],1,"on: push: branches: [\"main\"]."],
+["O que o python3 -m py_compile function_app.py valida?",["Testes unitários","A sintaxe, compilando sem executar","A conexão com o banco","As dependências"],1,"Erro de sintaxe faz o step falhar."],
+["Se o py_compile não imprime nada, significa:",["Travou","Sucesso: silêncio é sucesso","Arquivo vazio","Erro"],1,"Se está certo, não imprime nada."],
+["Run vermelho com várias mensagens: o que ler primeiro?",["A última","A primeira mensagem de erro","Nenhuma, refazer o fork","Só o resumo"],1,"O resto costuma ser consequência."],
+["Cores do run: amarelo, verde e vermelho significam:",["Falhou, rodando, passou","Rodando, passou, falhou","Passou, falhou, rodando","Cancelado, passou, falhou"],1,"Amarelo rodando, verde passou, vermelho falhou."],
+["Problema que nenhuma ferramenta de CI acusa e quem pega é a revisão de código:",["Erro de sintaxe","Senha e dados de pessoas escritos no log","Indentação","Import faltando"],1,"O timer roda a cada minuto: a senha iria para o log 60 vezes por hora."],
+["O que faz needs: validar no job deploy?",["Roda os dois em paralelo","Deploy só roda se validar passar","Instala dependências","Pede aprovação manual"],1,"É o needs protegendo a produção."],
+["Para que serve permissions: id-token: write?",["Escrever no repositório","Login na Azure por OIDC, sem senha guardada","Criar releases","Ler secrets"],1,"O GitHub prova quem é por um token federado."],
+["Quais secrets vão no repositório para o azure/login?",["HOST, DATABASE, USER, PASSWORD","AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID","GITHUB_TOKEN apenas","A chave da Storage"],1,"Credenciais do banco ficam nas configurações da Function App."],
+["Onde ficam HOST, DATABASE, USER e PASSWORD do banco?",["No function_app.py","No README","Nas configurações (variáveis de ambiente) da Function App","No ci.yml"],2,"Nunca no repositório, nunca no log."],
+["O que faz remote-build: true na functions-action?",["Compila localmente","O Azure instala as dependências do requirements.txt na hora","Desliga o build","Roda os testes"],1,"No plano Flex Consumption."],
+["Expressão do timer \"0 * * * * *\" na Function faz rodar:",["A cada hora","A cada minuto","A cada segundo","Uma vez por dia"],1,"Formato NCRONTAB de 6 campos (segundo primeiro): segundo 0 de cada minuto."],
+["Biblioteca Python usada para conectar ao SQL Server no projeto:",["psycopg2","pyodbc","sqlite3","pymysql"],1,"pyodbc com ODBC Driver 18."],
+["Para disparar o workflow manualmente pelo botão Run workflow, adiciona-se:",["workflow_dispatch","needs","runs-on","schedule"],0,"Trilha extra."],
+["Por que renomear a variável USER para SQL_USER?",["É mais curta","USER é variável comum do sistema operacional e pode colidir","O Azure proíbe USER","Por causa do OIDC"],1,"Evita colisão com a variável do ambiente."],
+["Por que a rubrica pede um run vermelho seguido da correção?",["Para perder pontos","Evidência de histórico incremental e autoria","O GitHub exige","Para testar o OIDC"],1,"Commits pequenos, vermelho e depois verde."],
+["Qual princípio: \"quanto mais cedo o erro aparece, ...\"",["mais caro é corrigir","mais barato é corrigir","menos importa","mais lento é o deploy"],1,"CI/CD é um loop de feedback rápido."]
+],
+ddl:[
+["Qual tabela é a central do modelo ITSM?",["itsm.sla","itsm.chamado","itsm.fila","itsm.csat"],1,"chamado referencia analista, solicitante, categoria, cliente e fila."],
+["Qual NÃO é um status válido de chamado?",["PENDING","RESOLVED","REOPENED","CANCELLED"],2,"Válidos: OPEN, IN_PROGRESS, PENDING, RESOLVED, CLOSED, CANCELLED."],
+["Valores permitidos para ds_prioridade:",["P1, P2, P3, P4","LOW, MEDIUM, HIGH, CRITICAL","BAIXA, MEDIA, ALTA","1 a 5"],1,"Definidos pelo CHECK CK_itsm_chamado_prioridade."],
+["Qual NÃO é tipo de chamado permitido?",["INCIDENT","PROBLEM","BUG","CHANGE"],2,"Tipos: INCIDENT, REQUEST, PROBLEM, CHANGE, TASK."],
+["Níveis permitidos para analista:",["Junior, Pleno, Senior","N1, N2, N3","1, 2, 3, 4","A, B, C"],1,"CHECK CK_itsm_analista_nivel."],
+["Faixa válida da nota de CSAT (nr_score):",["0 a 10","1 a 5","1 a 10","0 a 100"],1,"CHECK nr_score >= 1 AND nr_score <= 5."],
+["A coluna id_reporter do chamado referencia:",["analista","solicitante","cliente_organizacao","fila"],1,"FK_itsm_chamado_reporter → itsm.solicitante."],
+["O que indica fl_breach em chamado_sla?",["Chamado fechado","SLA estourado (violado)","Cliente ativo","Analista N3"],1,"Breach = violação da meta de SLA."],
+["O que significa ALTER TABLE ... WITH NOCHECK ADD CONSTRAINT ... CHECK?",["Desliga a constraint para sempre","Cria a regra sem validar as linhas já existentes","Valida só linhas antigas","Apaga dados inválidos"],1,"Novas linhas são validadas; as existentes não são checadas na criação."],
+["Qual tabela guarda o tempo que o chamado ficou em cada status?",["chamado_sla","chamado_status_historico","csat_avaliacao","fila"],1,"Com dt_inicio_status, dt_fim_status e qt_tempo_status_minutos."],
+["Qual o default de dt_inclusao nas tabelas?",["GETDATE()","sysutcdatetime()","NULL","CURRENT_DATE"],1,"Data e hora UTC do servidor, como no carregado_em da aula de SQL."],
+["Qual coluna de chamado pode ser NULL?",["id_reporter","id_cliente_organizacao","dt_resolucao","nr_chamado"],2,"Chamado ainda não resolvido não tem dt_resolucao."],
+["Para contar chamados por status, a consulta correta é:",["SELECT COUNT(*) FROM itsm.chamado ORDER BY ds_status_chamado","SELECT ds_status_chamado, COUNT(*) FROM itsm.chamado GROUP BY ds_status_chamado","SELECT * FROM itsm.chamado WHERE COUNT(*)>0","SELECT DISTINCT COUNT(ds_status_chamado) FROM itsm.chamado"],1,"Agregar com GROUP BY pela coluna."],
+["Qual o papel das colunas nm_sistema_origem e cd_registro_origem?",["Chave primária","Rastrear de qual sistema e registro o dado veio","Senha do sistema","Status"],1,"Rastreabilidade, igual às colunas de controle da aula de SQL."],
+["Qual tabela do DDL parece um rascunho sem relação com as demais?",["itsm.csat","itsm.csat_avaliacao","itsm.sla","itsm.categoria"],0,"itsm.csat tem só Id, Column1, Column2 e nenhuma FK."]
+]
+};
+
+/* ===================== APP ===================== */
+const app=document.getElementById('app'), nav=document.getElementById('nav');
+const QZ=[{id:"quiz",nav:"Questionários"}];
+const ALL=[...TOPICS,...QZ];
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function renderNav(cur){nav.innerHTML=ALL.map(t=>`<button class="${t.id===cur?'on':''}" data-id="${t.id}">${t.nav}</button>`).join('');
+ nav.querySelectorAll('button').forEach(b=>b.onclick=()=>{location.hash=b.dataset.id});
+ const on=nav.querySelector('.on');if(on)nav.scrollLeft=on.offsetLeft-nav.clientWidth/2+on.offsetWidth/2}
+const LABEL={adls:"Storage, Data Lake e Bronze",sql:"Azure SQL Database",viz:"Visualização de dados",cicd:"CI/CD com GitHub Actions",ddl:"Modelo ITSM (DDL)"};
+function bestHtml(k){const b=store('best_'+k);return b!=null?`<div class="score">Melhor: ${b}%</div>`:''}
+function home(){
+ app.innerHTML=`<h2>Revisão para a prova</h2><p class="lead">Leia o resumo de cada aula e depois faça os questionários. Cada questão mostra a explicação logo após a resposta.</p>
+ <h3 class="section-title">Resumos</h3>
+ <div class="mods">${TOPICS.slice(1).map(t=>`<div class="card mod" data-go="${t.id}"><div class="n">Resumo</div><h3>${t.title}</h3></div>`).join('')}</div>
+ <h3 class="section-title">Questionários</h3>
+ <div class="mods">${Object.keys(Q).map(k=>`<div class="card mod" data-quiz="${k}"><div class="n">${Q[k].length} questões</div><h3>${LABEL[k]}</h3>${bestHtml(k)}</div>`).join('')}
+ <div class="card mod" data-quiz="geral"><div class="n">25 questões sorteadas</div><h3>Simulado geral</h3>${bestHtml('geral')}</div></div>
+ <div class="tip"><b>Como as aulas se ligam:</b> Fonte (API/sistema) → <b>Azure Function</b> captura → grava o bruto no <b>ADLS (Bronze)</b> e o tratado no <b>Azure SQL</b> com MERGE → <b>dashboard</b> lê views com usuário somente leitura. O <b>CI/CD</b> valida e publica a Function a cada push. O <b>DDL ITSM</b> é o banco de chamados que a Function consulta.</div>`;
+ bindGo()}
+function bindGo(){app.querySelectorAll('[data-go]').forEach(e=>e.onclick=()=>location.hash=e.dataset.go);
+ app.querySelectorAll('[data-quiz]').forEach(e=>e.onclick=()=>location.hash='quiz-'+e.dataset.quiz)}
+function topic(t){app.innerHTML=`<h2>${t.title}</h2><p class="lead">${t.lead}</p>${t.html}
+ <div class="row" style="margin-top:22px"><button class="btn" data-quiz="${t.id}">Fazer o questionário deste tema →</button></div>`;bindGo();scrollTo(0,0)}
+function quizMenu(){app.innerHTML=`<h2>Questionários</h2><p class="lead">Escolha um tema ou faça o simulado geral. A ordem das questões e das alternativas é embaralhada a cada tentativa.</p>
+ <div class="mods">${Object.keys(Q).map(k=>`<div class="card mod" data-quiz="${k}"><div class="n">${Q[k].length} questões</div><h3>${LABEL[k]}</h3>${bestHtml(k)}</div>`).join('')}
+ <div class="card mod" data-quiz="geral"><div class="n">25 questões sorteadas</div><h3>Simulado geral</h3>${bestHtml('geral')}</div></div>`;bindGo()}
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function runQuiz(key,onlyList){
+ let list;
+ if(onlyList)list=onlyList;
+ else if(key==='geral'){list=shuffle(Object.entries(Q).flatMap(([k,v])=>v.map(q=>({q,k})))).slice(0,25)}
+ else list=shuffle(Q[key].map(q=>({q,k:key})));
+ list=list.map(({q,k})=>{const opts=shuffle(q[1].map((t,i)=>({t,c:i===q[2]})));return{k,text:q[0],opts,exp:q[3],raw:q}});
+ let i=0,hits=0,wrong=[];
+ const title=key==='geral'?'Simulado geral':(LABEL[key]||'Revisão dos erros');
+ function show(){
+  if(i>=list.length)return done();
+  const it=list[i];
+  app.innerHTML=`<h2>${title}</h2><p class="lead">${key==='geral'?'Questões de todos os temas.':'Responda e leia a explicação.'}</p>
+  <div class="q"><div class="qmeta"><span>Questão ${i+1} de ${list.length}${key==='geral'?` · <span class="pill">${LABEL[it.k]}</span>`:''}</span><span>Acertos: ${hits}</span></div>
+  <div class="bar"><i style="width:${i/list.length*100}%"></i></div>
+  <p class="qtext">${it.text}</p>
+  <div id="opts">${it.opts.map((o,j)=>`<button class="opt" data-j="${j}">${String.fromCharCode(65+j)}) ${o.t}</button>`).join('')}</div>
+  <div id="after"></div></div>`;
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+   const j=+b.dataset.j,ok=it.opts[j].c;
+   app.querySelectorAll('.opt').forEach((x,n)=>{x.disabled=true;if(it.opts[n].c)x.classList.add('ok')});
+   if(!ok){b.classList.add('bad');wrong.push({q:it.raw,k:it.k})}else hits++;
+   document.getElementById('after').innerHTML=`<div class="exp"><b>${ok?'Correto!':'Não foi dessa vez.'}</b>${it.exp}</div>
+   <div class="row" style="margin-top:14px"><button class="btn" id="nx">${i+1<list.length?'Próxima →':'Ver resultado'}</button></div>`;
+   document.getElementById('nx').onclick=()=>{i++;show()};
+  });
+ }
+ function done(){
+  const pct=Math.round(hits/list.length*100);
+  if(!onlyList){const b=store('best_'+key);if(b==null||pct>b)store('best_'+key,pct)}
+  app.innerHTML=`<div class="card result"><div class="n" style="color:var(--muted)">${title}</div>
+  <div class="big">${pct}%</div><p>${hits} de ${list.length} acertos. ${pct>=80?'Muito bom, você está pronto para este tema.':pct>=60?'Bom caminho. Revise os erros abaixo.':'Vale reler o resumo e tentar de novo.'}</p>
+  <div class="row" style="justify-content:center;margin-top:10px">
+   <button class="btn" id="again">Refazer</button>
+   ${wrong.length?'<button class="btn ghost" id="retry">Refazer só os erros</button>':''}
+   <button class="btn ghost" id="back">Outros questionários</button></div>
+  ${wrong.length?`<div class="wrong-list"><h3 class="section-title">Questões que você errou</h3>${wrong.map(w=>`<div class="card"><p><b>${w.q[0]}</b></p><p style="color:var(--ok)">✔ ${w.q[1][w.q[2]]}</p><p style="color:var(--muted)">${w.q[3]}</p></div>`).join('')}</div>`:''}</div>`;
+  document.getElementById('again').onclick=()=>runQuiz(key);
+  document.getElementById('back').onclick=()=>location.hash='quiz';
+  const r=document.getElementById('retry');if(r)r.onclick=()=>runQuiz(key,wrong);
+  scrollTo(0,0);
+ }
+ show();scrollTo(0,0);
+}
+function route(){
+ const h=location.hash.slice(1)||'inicio';
+ if(h.startsWith('quiz-')){renderNav('quiz');runQuiz(h.slice(5));return}
+ renderNav(h);
+ if(h==='inicio')return home();
+ if(h==='quiz')return quizMenu();
+ const t=TOPICS.find(x=>x.id===h);t?topic(t):home();
+}
+addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
